@@ -21,4 +21,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "hackaton"
 include(":app")
-include(":mvi")
