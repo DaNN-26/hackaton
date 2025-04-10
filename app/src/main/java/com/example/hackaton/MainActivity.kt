@@ -8,6 +8,7 @@ import com.arkivanov.decompose.defaultComponentContext
 import com.example.hackaton.features.root.component.DefaultRootComponent
 import com.example.hackaton.ui.theme.HackatonTheme
 import com.example.hackaton.features.root.ui.Root
+import org.koin.android.ext.android.get
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,7 +16,12 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             HackatonTheme {
-                Root(component = DefaultRootComponent(defaultComponentContext()))
+                val root = DefaultRootComponent(
+                    componentContext = defaultComponentContext(),
+                    authRepository = get(),
+                    userRepository = get()
+                )
+                Root(component = root)
             }
         }
     }
