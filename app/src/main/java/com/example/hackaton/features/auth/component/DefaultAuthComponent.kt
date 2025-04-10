@@ -10,10 +10,14 @@ import com.example.hackaton.features.auth.signIn.component.DefaultSignInComponen
 import com.example.hackaton.features.auth.signIn.component.SignInComponent
 import com.example.hackaton.features.auth.signUp.component.DefaultSignUpComponent
 import com.example.hackaton.features.auth.signUp.component.SignUpComponent
+import com.example.hackaton.network.auth.domain.repository.AuthRepository
+import com.example.hackaton.network.firestore.user.domain.repository.UserRepository
 import kotlinx.serialization.Serializable
 
 class DefaultAuthComponent(
-    componentContext: ComponentContext
+    componentContext: ComponentContext,
+    private val authRepository: AuthRepository,
+    private val userRepository: UserRepository
 ) : AuthComponent, ComponentContext by componentContext {
 
     private val navigation = StackNavigation<Config>()
@@ -36,12 +40,16 @@ class DefaultAuthComponent(
     private fun signInComponent(componentContext: ComponentContext): SignInComponent =
         DefaultSignInComponent(
             componentContext = componentContext,
+            authRepository = authRepository,
+            userRepository = userRepository,
             navigateToSignUp = { navigation.push(Config.SignUp) }
         )
 
     private fun signUpComponent(componentContext: ComponentContext): SignUpComponent =
         DefaultSignUpComponent(
             componentContext = componentContext,
+            authRepository = authRepository,
+            userRepository = userRepository,
             navigateBack = { navigation.pop() }
         )
 

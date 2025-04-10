@@ -7,10 +7,14 @@ import com.example.hackaton.features.auth.component.AuthComponent
 import com.example.hackaton.features.auth.component.DefaultAuthComponent
 import com.example.hackaton.features.main.component.DefaultMainComponent
 import com.example.hackaton.features.main.component.MainComponent
+import com.example.hackaton.network.auth.domain.repository.AuthRepository
+import com.example.hackaton.network.firestore.user.domain.repository.UserRepository
 import kotlinx.serialization.Serializable
 
 class DefaultRootComponent(
-    componentContext: ComponentContext
+    componentContext: ComponentContext,
+    private val authRepository: AuthRepository,
+    private val userRepository: UserRepository
 ) : RootComponent, ComponentContext by componentContext {
 
     private val navigation = StackNavigation<Config>()
@@ -30,7 +34,11 @@ class DefaultRootComponent(
         }
 
     private fun authComponent(componentContext: ComponentContext): AuthComponent =
-        DefaultAuthComponent(componentContext)
+        DefaultAuthComponent(
+            componentContext = componentContext,
+            authRepository = authRepository,
+            userRepository = userRepository
+        )
 
     private fun mainComponent(componentContext: ComponentContext): MainComponent =
         DefaultMainComponent(componentContext)
