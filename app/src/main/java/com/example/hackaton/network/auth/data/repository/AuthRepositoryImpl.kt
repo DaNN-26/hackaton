@@ -3,7 +3,6 @@ package com.example.hackaton.network.auth.data.repository
 import com.example.hackaton.network.auth.domain.repository.AuthRepository
 import com.example.hackaton.network.firestore.user.domain.model.UserData
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -15,8 +14,12 @@ class AuthRepositoryImpl(
         suspendCoroutine { continuation ->
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnSuccessListener { result ->
-                    val userData = UserData(uid = result.user!!.uid, email = result.user!!.email!!)
-                    continuation.resume(userData)
+                    val user = result.user
+                    if(user != null) {
+                        val userData = UserData(uid = user.uid, email = user.email ?: "")
+                        continuation.resume(userData)
+                    } else
+                        continuation.resumeWithException(Exception("User is null"))
                 }
                 .addOnFailureListener { continuation.resumeWithException(it) }
         }
