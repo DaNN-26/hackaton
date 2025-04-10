@@ -25,7 +25,10 @@ class UserRepositoryImpl(
                 .get()
                 .addOnSuccessListener { snapshot ->
                     val userData = snapshot.toObject<UserData>()
-                    continuation.resume(userData!!)
+                    if(userData != null)
+                        continuation.resume(userData)
+                    else
+                        continuation.resumeWithException(Exception("User not found"))
                 }
                 .addOnFailureListener { continuation.resumeWithException(it) }
         }

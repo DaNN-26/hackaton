@@ -28,8 +28,12 @@ class AuthRepositoryImpl(
         suspendCoroutine { continuation ->
             auth.signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener { result ->
-                    val userData = UserData(uid = result.user!!.uid, email = result.user!!.email!!)
-                    continuation.resume(userData)
+                    val user = result.user
+                    if(user != null) {
+                        val userData = UserData(uid = user.uid, email = user.email ?: "")
+                        continuation.resume(userData)
+                    } else
+                        continuation.resumeWithException(Exception("User is null"))
                 }
                 .addOnFailureListener { continuation.resumeWithException(it) }
         }
