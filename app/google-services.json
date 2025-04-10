@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "208058545369",
+    "project_id": "energon-1e3fa",
+    "storage_bucket": "energon-1e3fa.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:208058545369:android:c66032264191d74cc03ac8",
+        "android_client_info": {
+          "package_name": "com.example.hackaton"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARNtBTV52hdh3nz_iI2HokCn6KPdfD7WI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
