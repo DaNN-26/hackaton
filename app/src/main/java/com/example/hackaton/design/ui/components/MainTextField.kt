@@ -19,7 +19,7 @@ fun MainTextField(
     placeholder: @Composable () -> Unit,
     trailingIcon: @Composable (() -> Unit)? = null,
     keyboardOptions: KeyboardOptions,
-    isPasswordVisible: Boolean
+    visualTransformation: VisualTransformation = VisualTransformation.None
 ) {
     TextField(
         value = value,
@@ -40,6 +40,6 @@ fun MainTextField(
         placeholder = placeholder,
         trailingIcon = trailingIcon,
         keyboardOptions = keyboardOptions,
-        visualTransformation = if (isPasswordVisible) PasswordVisualTransformation() else VisualTransformation.None
+        visualTransformation = visualTransformation
     )
 }
