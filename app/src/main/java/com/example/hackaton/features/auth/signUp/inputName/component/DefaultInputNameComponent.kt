@@ -1,22 +1,15 @@
 package com.example.hackaton.features.auth.signUp.inputName.component
 
-import android.util.Log
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.update
 import com.example.hackaton.features.auth.signUp.inputName.intent.InputNameIntent
 import com.example.hackaton.features.auth.signUp.inputName.state.InputNameState
-import com.example.hackaton.network.auth.domain.repository.AuthRepository
-import com.example.hackaton.network.firestore.user.domain.repository.UserRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.example.hackaton.features.auth.signUp.inputName.validator.InputNameValidator
 
 class DefaultInputNameComponent(
     componentContext: ComponentContext,
-    private val authRepository: AuthRepository,
-    private val userRepository: UserRepository,
-    private val navigateNext: () -> Unit,
+    private val navigateToInputEmail: (List<String>) -> Unit,
     private val navigateBack: () -> Unit
 ) : InputNameComponent, ComponentContext by componentContext {
 
@@ -25,8 +18,6 @@ class DefaultInputNameComponent(
     )
 
     override val state = _state
-
-    private val scope = CoroutineScope(Dispatchers.IO)
 
     override fun processIntent(intent: InputNameIntent) {
         when (intent) {
@@ -38,22 +29,39 @@ class DefaultInputNameComponent(
         }
     }
 
-    private fun signUp() {
-        scope.launch {
-            try {
-                val userData = authRepository
-                    .signUp("12212@gmail.com", "123456")
-                    .copy(
-                        firstname = "Дмитрий",
-                        lastname = "Ермохин",
-                        patronymic = "Евгеньевич"
-                    )
-                userRepository.createUser(userData)
-            } catch (e: Exception) {
-                Log.d("SignUp", e.message.toString())
-            }
+    private fun navigateNext() {
+        checkInput()
+        if(state.value.validator == InputNameValidator.Success) {
+            val fullname = getFullName()
+            navigateToInputEmail(fullname)
         }
     }
+
+    private fun checkInput() {
+        _state.update {
+            it.copy(
+                validator = when {
+                    state.value.firstname.isEmpty() &&
+                            state.value.lastname.isEmpty() &&
+                            state.value.patronymic.isEmpty() ->
+                                InputNameValidator.EmptyAllFields
+
+                    state.value.firstname.isEmpty() -> InputNameValidator.EmptyFirstname
+                    state.value.lastname.isEmpty() -> InputNameValidator.EmptyLastname
+                    state.value.patronymic.isEmpty() -> InputNameValidator.EmptyPatronymic
+
+                    else -> InputNameValidator.Success
+                }
+            )
+        }
+    }
+
+    private fun getFullName() =
+        listOf(state.value.firstname, state.value.lastname, state.value.patronymic).map { str ->
+            str.trim()
+                .substring(0, 1).uppercase() +
+                    str.substring(1).lowercase()
+        }
 
     companion object {
         const val INPUT_NAME_COMPONENT = "INPUT_NAME_COMPONENT"
