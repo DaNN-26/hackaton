@@ -1,4 +1,4 @@
-package com.example.hackaton.features.auth.signUp.inputName.ui
+package com.example.hackaton.features.auth.signUp.input_name.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,14 +17,19 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
@@ -32,16 +37,34 @@ import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
-import com.example.hackaton.features.auth.signUp.inputName.component.InputNameComponent
-import com.example.hackaton.features.auth.signUp.inputName.intent.InputNameIntent
+import com.example.hackaton.features.auth.signUp.input_name.component.InputNameComponent
+import com.example.hackaton.features.auth.signUp.input_name.intent.InputNameIntent
 import com.example.hackaton.design.ui.components.MainButton
 import com.example.hackaton.design.ui.components.MainTextField
+import com.example.hackaton.features.auth.signUp.input_name.validator.InputNameValidator
+import com.example.hackaton.features.auth.ui.components.CustomSnackbar
 
 @Composable
 fun InputNameScreen(
     component: InputNameComponent
 ) {
     val state by component.state.subscribeAsState()
+    val snackbarHostState = remember { SnackbarHostState() }
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    LaunchedEffect(state.validator) {
+        if(state.validator != InputNameValidator.Success)
+            snackbarHostState.showSnackbar(
+                message = when(state.validator) {
+                    InputNameValidator.EmptyAllFields -> "Заполните все поля"
+                    InputNameValidator.EmptyFirstname -> "Заполните поле Имя"
+                    InputNameValidator.EmptyLastname -> "Заполните поле Фамилия"
+                    InputNameValidator.EmptyPatronymic -> "Заполните поле Отчество"
+                    else -> ""
+                },
+                duration = SnackbarDuration.Short
+            )
+    }
 
     Content(
         lastname = state.lastname,
@@ -50,8 +73,12 @@ fun InputNameScreen(
         onFirstnameChange = { component.processIntent(InputNameIntent.OnFirstnameChange(it)) },
         onLastnameChange = { component.processIntent(InputNameIntent.OnLastnameChange(it)) },
         onPatronymicChange = { component.processIntent(InputNameIntent.OnPatronymicChange(it)) },
-        navigateNext = { component.processIntent(InputNameIntent.NavigateNext) },
-        navigateBack = { component.processIntent(InputNameIntent.NavigateBack) }
+        navigateNext = {
+            keyboardController?.hide()
+            component.processIntent(InputNameIntent.NavigateNext)
+        },
+        navigateBack = { component.processIntent(InputNameIntent.NavigateBack) },
+        snackbarHostState = snackbarHostState
     )
 }
 
@@ -65,9 +92,11 @@ private fun Content(
     onLastnameChange: (String) -> Unit,
     onPatronymicChange: (String) -> Unit,
     navigateNext: () -> Unit,
-    navigateBack: () -> Unit
+    navigateBack: () -> Unit,
+    snackbarHostState: SnackbarHostState
 ) {
     Scaffold(
+        modifier = Modifier.fillMaxSize(),
         topBar = {
             IconButton(
                 onClick = navigateBack,
@@ -88,7 +117,7 @@ private fun Content(
                 )
             }
         },
-        modifier = Modifier.fillMaxSize()
+        snackbarHost = { CustomSnackbar(snackbarHostState) },
     ) { contentPadding ->
         Column(
             modifier = Modifier
@@ -245,6 +274,7 @@ private fun BottomTextButton(
 @PreviewScreenSizes
 fun Preview() {
     Content(
+        snackbarHostState = SnackbarHostState(),
         lastname = "",
         firstname = "",
         patronymic = "",

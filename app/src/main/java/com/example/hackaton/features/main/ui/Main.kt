@@ -5,6 +5,7 @@ import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.stack.animation.fade
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
 import com.example.hackaton.features.main.component.MainComponent
+import com.example.hackaton.features.main.home.ui.HomeScreen
 
 @Composable
 fun Main(
@@ -17,7 +18,7 @@ fun Main(
         animation = stackAnimation(fade())
     ) { child ->
         when (val instance = child.instance) {
-            is MainComponent.Child.Home -> {}
+            is MainComponent.Child.Home -> HomeScreen(instance.component)
             is MainComponent.Child.Profile -> {}
         }
     }

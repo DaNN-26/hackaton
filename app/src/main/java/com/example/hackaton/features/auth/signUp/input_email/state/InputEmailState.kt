@@ -1,4 +1,4 @@
-package com.example.hackaton.features.auth.signUp.inputEmail.state
+package com.example.hackaton.features.auth.signUp.input_email.state
 
 import kotlinx.serialization.Serializable
 

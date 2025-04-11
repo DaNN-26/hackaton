@@ -3,6 +3,7 @@ package com.example.hackaton.features.main.component
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
+import com.example.hackaton.features.main.home.component.DefaultHomeComponent
 import kotlinx.serialization.Serializable
 
 class DefaultMainComponent(
@@ -21,9 +22,14 @@ class DefaultMainComponent(
 
     private fun child(config: Config, componentContext: ComponentContext) =
         when (config) {
-            is Config.Home -> MainComponent.Child.Home
+            is Config.Home -> MainComponent.Child.Home(homeComponent(componentContext))
             is Config.Profile -> MainComponent.Child.Profile
         }
+
+    private fun homeComponent(componentContext: ComponentContext) =
+        DefaultHomeComponent(
+            componentContext = componentContext
+        )
 
     @Serializable
     sealed interface Config {
