@@ -10,8 +10,6 @@ import com.example.hackaton.features.auth.signIn.component.DefaultSignInComponen
 import com.example.hackaton.features.auth.signIn.component.SignInComponent
 import com.example.hackaton.features.auth.signUp.component.DefaultSignUpComponent
 import com.example.hackaton.features.auth.signUp.component.SignUpComponent
-import com.example.hackaton.features.auth.signUp.inputName.component.DefaultInputNameComponent
-import com.example.hackaton.features.auth.signUp.inputName.component.InputNameComponent
 import com.example.hackaton.network.auth.domain.repository.AuthRepository
 import com.example.hackaton.network.firestore.user.domain.repository.UserRepository
 import kotlinx.serialization.Serializable
@@ -26,7 +24,7 @@ class DefaultAuthComponent(
 
     override val stack = childStack(
         source = navigation,
-        initialConfiguration = Config.SignUp,
+        initialConfiguration = Config.SignIn,
         serializer = Config.serializer(),
         handleBackButton = true,
         childFactory = ::child
@@ -51,7 +49,8 @@ class DefaultAuthComponent(
         DefaultSignUpComponent(
             componentContext = componentContext,
             authRepository = authRepository,
-            userRepository = userRepository
+            userRepository = userRepository,
+            navigateBack = { navigation.pop() }
         )
 
     @Serializable

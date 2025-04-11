@@ -1,4 +1,4 @@
-package com.example.hackaton.features.auth.signUp.inputEmail.intent
+package com.example.hackaton.features.auth.signUp.input_email.intent
 
 sealed class InputEmailIntent {
     class OnEmailChange(val email: String): InputEmailIntent()

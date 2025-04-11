@@ -2,14 +2,12 @@ package com.example.hackaton.features.auth.signUp.component
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.DelicateDecomposeApi
-import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.push
-import com.arkivanov.decompose.value.Value
-import com.example.hackaton.features.auth.signUp.inputEmail.component.DefaultInputEmailComponent
-import com.example.hackaton.features.auth.signUp.inputName.component.DefaultInputNameComponent
+import com.example.hackaton.features.auth.signUp.input_email.component.DefaultInputEmailComponent
+import com.example.hackaton.features.auth.signUp.input_name.component.DefaultInputNameComponent
 import com.example.hackaton.network.auth.domain.repository.AuthRepository
 import com.example.hackaton.network.firestore.user.domain.repository.UserRepository
 import kotlinx.serialization.Serializable
@@ -17,7 +15,8 @@ import kotlinx.serialization.Serializable
 class DefaultSignUpComponent(
     componentContext: ComponentContext,
     private val authRepository: AuthRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val navigateBack: () -> Unit
 ) : SignUpComponent, ComponentContext by componentContext {
 
     private val navigation = StackNavigation<Config>()
@@ -32,23 +31,25 @@ class DefaultSignUpComponent(
 
     private fun child(config: Config, componentContext: ComponentContext) =
         when (config) {
-            Config.InputName -> SignUpComponent.Child.InputName(inputNameComponent(componentContext))
-            Config.InputEmail -> SignUpComponent.Child.InputEmail(inputEmailComponent(componentContext))
+            is Config.InputName -> SignUpComponent.Child.InputName(inputNameComponent(componentContext))
+            is Config.InputEmail -> SignUpComponent.Child.InputEmail(inputEmailComponent(config, componentContext))
         }
 
     @OptIn(DelicateDecomposeApi::class)
     private fun inputNameComponent(componentContext: ComponentContext) =
         DefaultInputNameComponent(
             componentContext = componentContext,
-            authRepository = authRepository,
-            userRepository = userRepository,
-            navigateNext = { navigation.push(Config.InputEmail) },
-            navigateBack = { navigation.pop() },
+            navigateToInputEmail = { navigation.push(Config.InputEmail(fullname = it)) },
+            navigateBack = navigateBack,
         )
 
-    private fun inputEmailComponent(componentContext: ComponentContext) =
+    private fun inputEmailComponent(config: Config.InputEmail, componentContext: ComponentContext) =
         DefaultInputEmailComponent(
-            componentContext = componentContext
+            componentContext = componentContext,
+            authRepository = authRepository,
+            userRepository = userRepository,
+            names = config.fullname,
+            navigateBack = { navigation.pop() }
         )
 
     @Serializable
@@ -56,6 +57,6 @@ class DefaultSignUpComponent(
         @Serializable
         object InputName : Config
         @Serializable
-        object InputEmail : Config
+        class InputEmail(val fullname: List<String>) : Config
     }
 }

@@ -1,4 +1,4 @@
-package com.example.hackaton.features.auth.signUp.inputEmail.ui
+package com.example.hackaton.features.auth.signUp.inputName.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -32,44 +32,45 @@ import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
+import com.example.hackaton.features.auth.signUp.inputName.component.InputNameComponent
+import com.example.hackaton.features.auth.signUp.inputName.intent.InputNameIntent
 import com.example.hackaton.design.ui.components.MainButton
-import com.example.hackaton.features.auth.signUp.inputEmail.component.InputEmailComponent
-import com.example.hackaton.features.auth.signUp.inputEmail.intent.InputEmailIntent
-import com.example.hackaton.features.auth.ui.components.AuthTextField
+import com.example.hackaton.design.ui.components.MainTextField
 
 @Composable
-fun InputEmailScreen(
-    component: InputEmailComponent
+fun InputNameScreen(
+    component: InputNameComponent
 ) {
     val state by component.state.subscribeAsState()
+
     Content(
-        email = state.email,
-        password = state.password,
-        repeatPassword = state.repeatPassword,
-        onEmailChange = {component.processIntent(intent = InputEmailIntent.OnEmailChange(it))},
-        onPasswordChange = {component.processIntent(intent = InputEmailIntent.OnPasswordChange(it))},
-        onRepeatPasswordChange = {component.processIntent(intent = InputEmailIntent.OnRepeatPasswordChange(it))},
-        navigateToNext = {component.processIntent(intent = InputEmailIntent.SignUp)},
-        navigateToBack = {component.processIntent(intent = InputEmailIntent.NavigateBack)}
+        lastname = state.lastname,
+        firstname = state.firstname,
+        patronymic = state.patronymic,
+        onFirstnameChange = { component.processIntent(InputNameIntent.OnFirstnameChange(it)) },
+        onLastnameChange = { component.processIntent(InputNameIntent.OnLastnameChange(it)) },
+        onPatronymicChange = { component.processIntent(InputNameIntent.OnPatronymicChange(it)) },
+        navigateNext = { component.processIntent(InputNameIntent.NavigateNext) },
+        navigateBack = { component.processIntent(InputNameIntent.NavigateBack) }
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun Content(
-    email: String,
-    password: String,
-    repeatPassword: String,
-    onRepeatPasswordChange: (String) -> Unit,
-    onEmailChange: (String) -> Unit,
-    onPasswordChange: (String) -> Unit,
-    navigateToNext: () -> Unit,
-    navigateToBack: () -> Unit
+    lastname: String,
+    firstname: String,
+    patronymic: String,
+    onFirstnameChange: (String) -> Unit,
+    onLastnameChange: (String) -> Unit,
+    onPatronymicChange: (String) -> Unit,
+    navigateNext: () -> Unit,
+    navigateBack: () -> Unit
 ) {
     Scaffold(
         topBar = {
             IconButton(
-                onClick = navigateToBack,
+                onClick = navigateBack,
                 modifier = Modifier
                     .windowInsetsPadding(TopAppBarDefaults.windowInsets)
                     .padding(start = 20.dp, top = 20.dp)
@@ -88,32 +89,31 @@ private fun Content(
             }
         },
         modifier = Modifier.fillMaxSize()
-    )
-        { contentPadding ->
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(contentPadding)
-                    .padding(horizontal = 20.dp)
-            ) {
-                Title(
-                    modifier = Modifier.weight(0.2f)
-                )
-                InputForm(
-                    modifier = Modifier.weight(1f),
-                    email = email,
-                    password = password,
-                    repeatPassword = repeatPassword,
-                    onRepeatPasswordChange = onRepeatPasswordChange,
-                    onEmailChange = onEmailChange,
-                    onPasswordChange = onPasswordChange,
-                    onClick = navigateToNext,
-                )
-                BottomTextButton(
-                    onClick = navigateToBack,
-                    modifier = Modifier.weight(0.1f)
-                )
-            }
+    ) { contentPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(contentPadding)
+                .padding(horizontal = 20.dp)
+        ) {
+            Title(
+                modifier = Modifier.weight(0.2f)
+            )
+            InputForm(
+                modifier = Modifier.weight(1f),
+                lastname = lastname,
+                firstname = firstname,
+                patronymic = patronymic,
+                onFirstnameChange = { onFirstnameChange(it) },
+                onLastnameChange = { onLastnameChange(it) },
+                onPatronymicChange = { onPatronymicChange(it) },
+                onClick = navigateNext,
+            )
+            BottomTextButton(
+                onClick = navigateBack,
+                modifier = Modifier.weight(0.1f)
+            )
+        }
     }
 }
 
@@ -132,7 +132,7 @@ private fun Title(
             fontWeight = FontWeight.Bold
         )
         Text(
-            text = "Введите данные для регистрации",
+            text = "Введите свои личные данные",
             fontSize = 16.sp,
             color = Color.Gray,
             textAlign = TextAlign.Center
@@ -143,46 +143,44 @@ private fun Title(
 @Composable
 private fun InputForm(
     modifier: Modifier = Modifier,
-    email: String,
-    password: String,
-    repeatPassword: String,
-    onRepeatPasswordChange: (String) -> Unit,
-    onEmailChange: (String) -> Unit,
-    onPasswordChange: (String) -> Unit,
+    lastname: String,
+    firstname: String,
+    patronymic: String,
+    onFirstnameChange: (String) -> Unit,
+    onLastnameChange: (String) -> Unit,
+    onPatronymicChange: (String) -> Unit,
     onClick: () -> Unit
 ) {
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        AuthTextField(
-            value = email,
-            onValueChange = { onEmailChange(it) },
-            title = "Электронная почта",
-            placeholderText = "example@mail.ru",
+        SignUpTextField(
+            value = lastname,
+            onValueChange = { onLastnameChange(it) },
+            title = "Фамилия",
+            placeholderText = "Иванов",
             keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Done
             )
         )
-        AuthTextField(
-            value = password,
-            onValueChange = { onPasswordChange(it) },
-            title = "Пароль",
-            placeholderText = "······",
+        SignUpTextField(
+            value = firstname,
+            onValueChange = { onFirstnameChange(it) },
+            title = "Имя",
+            placeholderText = "Иван",
             keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Next
-            ),
-            isPassword = true
+            )
         )
-        AuthTextField(
-            value = repeatPassword,
-            onValueChange = { onRepeatPasswordChange(it) },
-            title = "Повторите пароль",
-            placeholderText = "······",
+        SignUpTextField(
+            value = patronymic,
+            onValueChange = { onPatronymicChange(it) },
+            title = "Отчество",
+            placeholderText = "Иванович",
             keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Next
-            ),
-            isPassword = true
+                imeAction = ImeAction.Done
+            )
         )
         Spacer(Modifier.height(0.dp))
         MainButton(
@@ -192,6 +190,34 @@ private fun InputForm(
         )
     }
 }
+
+@Composable
+private fun SignUpTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    title: String,
+    placeholderText: String,
+    keyboardOptions: KeyboardOptions
+) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        Text(
+            text = title,
+            fontSize = 16.sp
+        )
+        MainTextField(
+            value = value,
+            onValueChange = onValueChange,
+            modifier = Modifier.fillMaxWidth(),
+            placeholder = {
+                Text(text = placeholderText)
+            },
+            keyboardOptions = keyboardOptions
+        )
+    }
+}
+
 
 @Composable
 private fun BottomTextButton(
@@ -217,15 +243,15 @@ private fun BottomTextButton(
 
 @Composable
 @PreviewScreenSizes
-fun PreviewScreenSizes() {
+fun Preview() {
     Content(
-        email = "",
-        password = "",
-        repeatPassword = "",
-        onRepeatPasswordChange = {},
-        onEmailChange = {},
-        onPasswordChange = {},
-        navigateToNext = {},
-        navigateToBack = {}
+        lastname = "",
+        firstname = "",
+        patronymic = "",
+        onFirstnameChange = {},
+        onLastnameChange = {},
+        onPatronymicChange = {},
+        navigateNext = {},
+        navigateBack = {}
     )
 }

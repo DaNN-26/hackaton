@@ -5,8 +5,8 @@ import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.stack.animation.slide
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
 import com.example.hackaton.features.auth.signUp.component.SignUpComponent
-import com.example.hackaton.features.auth.signUp.inputEmail.ui.InputEmailScreen
-import com.example.hackaton.features.auth.signUp.inputName.ui.InputNameScreen
+import com.example.hackaton.features.auth.signUp.input_email.ui.InputEmailScreen
+import com.example.hackaton.features.auth.signUp.input_name.ui.InputNameScreen
 
 @Composable
 fun SignUp(
