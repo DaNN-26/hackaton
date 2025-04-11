@@ -1,12 +1,11 @@
-package com.example.hackaton.features.auth.signUp.inputEmail.component
+package com.example.hackaton.features.auth.signUp.input_email.component
 
 import android.util.Log
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
-import com.arkivanov.decompose.value.Value
 import com.arkivanov.decompose.value.update
-import com.example.hackaton.features.auth.signUp.inputEmail.intent.InputEmailIntent
-import com.example.hackaton.features.auth.signUp.inputEmail.state.InputEmailState
+import com.example.hackaton.features.auth.signUp.input_email.intent.InputEmailIntent
+import com.example.hackaton.features.auth.signUp.input_email.state.InputEmailState
 import com.example.hackaton.network.auth.domain.repository.AuthRepository
 import com.example.hackaton.network.firestore.user.domain.repository.UserRepository
 import kotlinx.coroutines.CoroutineScope

@@ -1,4 +1,4 @@
-package com.example.hackaton.features.auth.signUp.inputName.validator
+package com.example.hackaton.features.auth.signUp.input_name.validator
 
 import kotlinx.serialization.Serializable
 

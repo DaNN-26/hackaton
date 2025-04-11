@@ -1,11 +1,11 @@
-package com.example.hackaton.features.auth.signUp.inputName.component
+package com.example.hackaton.features.auth.signUp.input_name.component
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.update
-import com.example.hackaton.features.auth.signUp.inputName.intent.InputNameIntent
-import com.example.hackaton.features.auth.signUp.inputName.state.InputNameState
-import com.example.hackaton.features.auth.signUp.inputName.validator.InputNameValidator
+import com.example.hackaton.features.auth.signUp.input_name.intent.InputNameIntent
+import com.example.hackaton.features.auth.signUp.input_name.state.InputNameState
+import com.example.hackaton.features.auth.signUp.input_name.validator.InputNameValidator
 
 class DefaultInputNameComponent(
     componentContext: ComponentContext,

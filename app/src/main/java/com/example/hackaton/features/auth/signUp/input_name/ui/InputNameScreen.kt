@@ -1,4 +1,4 @@
-package com.example.hackaton.features.auth.signUp.inputName.ui
+package com.example.hackaton.features.auth.signUp.input_name.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -37,11 +37,11 @@ import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
-import com.example.hackaton.features.auth.signUp.inputName.component.InputNameComponent
-import com.example.hackaton.features.auth.signUp.inputName.intent.InputNameIntent
+import com.example.hackaton.features.auth.signUp.input_name.component.InputNameComponent
+import com.example.hackaton.features.auth.signUp.input_name.intent.InputNameIntent
 import com.example.hackaton.design.ui.components.MainButton
 import com.example.hackaton.design.ui.components.MainTextField
-import com.example.hackaton.features.auth.signUp.inputName.validator.InputNameValidator
+import com.example.hackaton.features.auth.signUp.input_name.validator.InputNameValidator
 import com.example.hackaton.features.auth.ui.components.CustomSnackbar
 
 @Composable

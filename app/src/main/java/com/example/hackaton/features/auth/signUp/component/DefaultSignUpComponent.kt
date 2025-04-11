@@ -2,14 +2,12 @@ package com.example.hackaton.features.auth.signUp.component
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.DelicateDecomposeApi
-import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.push
-import com.arkivanov.decompose.value.Value
-import com.example.hackaton.features.auth.signUp.inputEmail.component.DefaultInputEmailComponent
-import com.example.hackaton.features.auth.signUp.inputName.component.DefaultInputNameComponent
+import com.example.hackaton.features.auth.signUp.input_email.component.DefaultInputEmailComponent
+import com.example.hackaton.features.auth.signUp.input_name.component.DefaultInputNameComponent
 import com.example.hackaton.network.auth.domain.repository.AuthRepository
 import com.example.hackaton.network.firestore.user.domain.repository.UserRepository
 import kotlinx.serialization.Serializable

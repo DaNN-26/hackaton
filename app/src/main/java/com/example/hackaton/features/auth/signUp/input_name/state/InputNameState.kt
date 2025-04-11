@@ -1,6 +1,6 @@
-package com.example.hackaton.features.auth.signUp.inputName.state
+package com.example.hackaton.features.auth.signUp.input_name.state
 
-import com.example.hackaton.features.auth.signUp.inputName.validator.InputNameValidator
+import com.example.hackaton.features.auth.signUp.input_name.validator.InputNameValidator
 import kotlinx.serialization.Serializable
 
 @Serializable
