@@ -7,6 +7,8 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -15,7 +17,9 @@ fun MainTextField(
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     placeholder: @Composable () -> Unit,
-    keyboardOptions: KeyboardOptions
+    trailingIcon: @Composable (() -> Unit)? = null,
+    keyboardOptions: KeyboardOptions,
+    isPasswordVisible: Boolean
 ) {
     TextField(
         value = value,
@@ -34,6 +38,8 @@ fun MainTextField(
             unfocusedTextColor = Color.Gray
         ),
         placeholder = placeholder,
-        keyboardOptions = keyboardOptions
+        trailingIcon = trailingIcon,
+        keyboardOptions = keyboardOptions,
+        visualTransformation = if (isPasswordVisible) PasswordVisualTransformation() else VisualTransformation.None
     )
 }
