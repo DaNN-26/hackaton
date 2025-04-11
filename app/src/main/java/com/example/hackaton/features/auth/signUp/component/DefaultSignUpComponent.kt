@@ -17,6 +17,7 @@ class DefaultSignUpComponent(
     componentContext: ComponentContext,
     private val authRepository: AuthRepository,
     private val userRepository: UserRepository,
+    private val navigateNext: () -> Unit,
     private val navigateBack: () -> Unit
 ) : SignUpComponent, ComponentContext by componentContext {
 
@@ -30,10 +31,10 @@ class DefaultSignUpComponent(
 
     override fun processIntent(intent: SignUpIntent) {
         when (intent) {
-            is SignUpIntent.OnEmailChange -> _state.update { it.copy(email = intent.email) }
-            is SignUpIntent.OnPasswordChange -> _state.update { it.copy(password = intent.password) }
-            is SignUpIntent.OnRepeatPasswordChange -> _state.update { it.copy(repeatPassword = intent.password) }
-            is SignUpIntent.SignUp -> signUp()
+            is SignUpIntent.OnFirstnameChange -> _state.update { it.copy(firstname = intent.firstname) }
+            is SignUpIntent.OnLastnameChange -> _state.update { it.copy(lastname = intent.lastname) }
+            is SignUpIntent.OnPatronymicChange -> _state.update { it.copy(patronymic = intent.patronymic) }
+            is SignUpIntent.NavigateNext -> navigateNext()
             is SignUpIntent.NavigateBack -> navigateBack()
         }
     }
@@ -42,7 +43,7 @@ class DefaultSignUpComponent(
         scope.launch {
             try {
                 val userData = authRepository
-                    .signUp("example@gmail.com", "123456")
+                    .signUp("12212@gmail.com", "123456")
                     .copy(
                         firstname = "Дмитрий",
                         lastname = "Ермохин",

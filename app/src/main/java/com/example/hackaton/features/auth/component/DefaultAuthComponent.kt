@@ -24,7 +24,7 @@ class DefaultAuthComponent(
 
     override val stack = childStack(
         source = navigation,
-        initialConfiguration = Config.SignIn,
+        initialConfiguration = Config.SignUp,
         serializer = Config.serializer(),
         handleBackButton = true,
         childFactory = ::child
@@ -50,6 +50,7 @@ class DefaultAuthComponent(
             componentContext = componentContext,
             authRepository = authRepository,
             userRepository = userRepository,
+            navigateNext = { /*TODO*/ },
             navigateBack = { navigation.pop() }
         )
 

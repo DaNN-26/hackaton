@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.arkivanov.decompose.defaultComponentContext
 import com.example.hackaton.features.root.component.DefaultRootComponent
-import com.example.hackaton.ui.theme.HackatonTheme
+import com.example.hackaton.design.ui.theme.HackatonTheme
 import com.example.hackaton.features.root.ui.Root
 import org.koin.android.ext.android.get
 
