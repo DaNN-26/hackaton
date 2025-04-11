@@ -54,9 +54,7 @@ private fun Content() {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            SearchTopBar(
-
-            )
+            SearchTopBar()
         },
         bottomBar = {
             CustomBottomBar()
@@ -65,7 +63,6 @@ private fun Content() {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-
                 .padding(contentPadding)
         ) {
             LazyColumn {
@@ -78,6 +75,7 @@ private fun Content() {
                 }
             }
             IconButton(
+                onClick = { /*TODO*/ },
                 modifier = Modifier
                     .padding(bottom = 20.dp, end = 20.dp)
                     .background(
@@ -86,7 +84,6 @@ private fun Content() {
                     )
                     .size(80.dp)
                     .align(Alignment.BottomEnd),
-                onClick = { /*TODO*/ },
                 colors = IconButtonDefaults.iconButtonColors(
                     contentColor = Color.White,
                 )
@@ -109,9 +106,6 @@ private fun SearchTopBar() {
             .padding(15.dp)
             .clip(RoundedCornerShape(20.dp))
             .clickable { }
-            .shadow(
-                elevation = 51.dp
-            )
             .fillMaxWidth(),
         value = "",
         onValueChange = {},
@@ -140,8 +134,7 @@ private fun SearchTopBar() {
 }
 
 @Composable
-fun CustomBottomBar(
-) {
+fun CustomBottomBar() {
     var selectedIndex by remember { mutableStateOf(0) }
     BottomAppBar(
         modifier = Modifier
@@ -164,9 +157,7 @@ fun CustomBottomBar(
                     painter = painterResource(R.drawable.home),
                     contentDescription = null,
                     tint = if (selectedIndex == 1) Color.Gray else Color.Black,
-
-
-                    )
+                )
             }
         )
         NavigationBarItem(
