@@ -37,11 +37,12 @@ import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
-import com.example.hackaton.features.auth.signUp.input_name.component.InputNameComponent
-import com.example.hackaton.features.auth.signUp.input_name.intent.InputNameIntent
 import com.example.hackaton.design.ui.components.MainButton
 import com.example.hackaton.design.ui.components.MainTextField
+import com.example.hackaton.features.auth.signUp.input_name.component.InputNameComponent
+import com.example.hackaton.features.auth.signUp.input_name.intent.InputNameIntent
 import com.example.hackaton.features.auth.signUp.input_name.validator.InputNameValidator
+import com.example.hackaton.features.auth.ui.components.AuthTextField
 import com.example.hackaton.features.auth.ui.components.CustomSnackbar
 
 @Composable
@@ -184,7 +185,7 @@ private fun InputForm(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        SignUpTextField(
+        AuthTextField(
             value = lastname,
             onValueChange = { onLastnameChange(it) },
             title = "Фамилия",
@@ -193,7 +194,7 @@ private fun InputForm(
                 imeAction = ImeAction.Done
             )
         )
-        SignUpTextField(
+        AuthTextField(
             value = firstname,
             onValueChange = { onFirstnameChange(it) },
             title = "Имя",
@@ -202,7 +203,7 @@ private fun InputForm(
                 imeAction = ImeAction.Next
             )
         )
-        SignUpTextField(
+        AuthTextField(
             value = patronymic,
             onValueChange = { onPatronymicChange(it) },
             title = "Отчество",
