@@ -36,6 +36,7 @@ import com.example.hackaton.features.auth.signUp.inputName.component.InputNameCo
 import com.example.hackaton.features.auth.signUp.inputName.intent.InputNameIntent
 import com.example.hackaton.design.ui.components.MainButton
 import com.example.hackaton.design.ui.components.MainTextField
+import com.example.hackaton.features.auth.ui.components.AuthTextField
 
 @Composable
 fun InputNameScreen(
@@ -155,7 +156,7 @@ private fun InputForm(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        SignUpTextField(
+        AuthTextField(
             value = lastname,
             onValueChange = { onLastnameChange(it) },
             title = "Фамилия",
@@ -164,7 +165,7 @@ private fun InputForm(
                 imeAction = ImeAction.Done
             )
         )
-        SignUpTextField(
+        AuthTextField(
             value = firstname,
             onValueChange = { onFirstnameChange(it) },
             title = "Имя",
@@ -173,7 +174,7 @@ private fun InputForm(
                 imeAction = ImeAction.Next
             )
         )
-        SignUpTextField(
+        AuthTextField(
             value = patronymic,
             onValueChange = { onPatronymicChange(it) },
             title = "Отчество",
@@ -190,34 +191,6 @@ private fun InputForm(
         )
     }
 }
-
-@Composable
-private fun SignUpTextField(
-    value: String,
-    onValueChange: (String) -> Unit,
-    title: String,
-    placeholderText: String,
-    keyboardOptions: KeyboardOptions
-) {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        Text(
-            text = title,
-            fontSize = 16.sp
-        )
-        MainTextField(
-            value = value,
-            onValueChange = onValueChange,
-            modifier = Modifier.fillMaxWidth(),
-            placeholder = {
-                Text(text = placeholderText)
-            },
-            keyboardOptions = keyboardOptions
-        )
-    }
-}
-
 
 @Composable
 private fun BottomTextButton(
