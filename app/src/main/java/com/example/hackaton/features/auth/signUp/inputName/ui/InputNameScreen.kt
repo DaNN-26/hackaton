@@ -1,4 +1,4 @@
-package com.example.hackaton.features.auth.signUp.ui
+package com.example.hackaton.features.auth.signUp.inputName.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -33,14 +32,14 @@ import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
-import com.example.hackaton.features.auth.signUp.component.SignUpComponent
-import com.example.hackaton.features.auth.signUp.intent.SignUpIntent
+import com.example.hackaton.features.auth.signUp.inputName.component.InputNameComponent
+import com.example.hackaton.features.auth.signUp.inputName.intent.InputNameIntent
 import com.example.hackaton.design.ui.components.MainButton
 import com.example.hackaton.design.ui.components.MainTextField
 
 @Composable
-fun SignUpScreen(
-    component: SignUpComponent
+fun InputNameScreen(
+    component: InputNameComponent
 ) {
     val state by component.state.subscribeAsState()
 
@@ -48,11 +47,11 @@ fun SignUpScreen(
         lastname = state.lastname,
         firstname = state.firstname,
         patronymic = state.patronymic,
-        onFirstnameChange = { component.processIntent(SignUpIntent.OnFirstnameChange(it)) },
-        onLastnameChange = { component.processIntent(SignUpIntent.OnLastnameChange(it)) },
-        onPatronymicChange = { component.processIntent(SignUpIntent.OnPatronymicChange(it)) },
-        navigateNext = { component.processIntent(SignUpIntent.NavigateNext) },
-        navigateBack = { component.processIntent(SignUpIntent.NavigateBack) }
+        onFirstnameChange = { component.processIntent(InputNameIntent.OnFirstnameChange(it)) },
+        onLastnameChange = { component.processIntent(InputNameIntent.OnLastnameChange(it)) },
+        onPatronymicChange = { component.processIntent(InputNameIntent.OnPatronymicChange(it)) },
+        navigateNext = { component.processIntent(InputNameIntent.NavigateNext) },
+        navigateBack = { component.processIntent(InputNameIntent.NavigateBack) }
     )
 }
 
